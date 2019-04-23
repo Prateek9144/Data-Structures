@@ -9,7 +9,6 @@ public class RB {
     void insert(int val) {
         root = Insertelement(root, val);
         root.colour = false;
-        // Fixup(root, val);
     }
 
     RBnode Insertelement(RBnode rt, int a) {
@@ -66,68 +65,6 @@ public class RB {
         return rt;
     }
 
-    // void Fixup(RBnode rt, int val) {
-    // if (root.value == val) {
-    // rt.colour = false;
-    // } else {
-    // RBnode parent = findparent(root, val);
-    // if (siblingof(rt) != null) {
-    // if (parent.colour == true) {
-    // RBnode sibling = siblingof(rt);
-    // if (sibling.colour == true) {
-    // parent.colour = true;
-    // sibling.colour = false;
-    // rt.colour = false;
-    // } else {
-    // if (parent.value > rt.value) {
-    // if (rt.rc != null) {
-    // parent = leftleftrotation(parent);
-    // } else {
-    // parent = rightleftrotation(parent);
-    // }
-    // } else {
-    // if (parent.value > rt.value) {
-    // parent = rightrightrotation(parent);
-    // } else {
-    // parent = leftrightrotation(parent);
-    // }
-    // }
-    // }
-    // }
-    // }
-    // }
-
-    // }
-
-    RBnode findparent(RBnode node, Integer a) {
-        if (node.lc != null) {
-            if (node.lc.value == a)
-                return node;
-        }
-        if (node.rc != null) {
-            if (node.rc.value == a)
-                return node;
-        }
-
-        if (node.value > a) {
-            return findparent(node.lc, a);
-        } else {
-            return findparent(node.rc, a);
-        }
-
-    }
-
-    RBnode siblingof(RBnode rt) {
-        RBnode sibling = new RBnode();
-        RBnode parent = findparent(root, rt.value);
-        if (rt.value > parent.value) {
-            sibling = parent.lc;
-        } else {
-            sibling = parent.rc;
-        }
-        return sibling;
-    }
-
     RBnode rightrightrotation(RBnode x) {
         RBnode temp;
         temp = x.lc;
@@ -161,21 +98,41 @@ public class RB {
         temp = rightrightrotation(temp);
         return leftleftrotation(x);
     }
-
-    void InOrderTraverse(RBnode rt) {
-        if (rt != null) {
-            InOrderTraverse(rt.lc);
-            System.out.print(rt.value + ", ");
-            InOrderTraverse(rt.rc);
-        }
+    
+    public void InOrderTraverse(RBnode r) {
+        if (r == null)
+            return;
+        InOrderTraverse(r.left);
+        System.out.print(r.val + "\t");
+        InOrderTraverse(r.right);
     }
 
-    void InOrderTraverseColour(RBnode rt) {
-        if (rt != null) {
-            InOrderTraverse(rt.lc);
-            System.out.print(rt.colour + ", ");
-            InOrderTraverse(rt.rc);
-        }
-
+    public void InOrderTraverseColour(RBnode r) {
+        if (r == null)
+            return;
+        InOrderTraverseColour(r.lc);
+        if (r.colour)
+            System.out.print("Red\t");
+        else
+            System.out.print("Black\t");
+        InOrderTraverseColour(r.rc);
     }
+    public void PreTraverse(RBnode r) {
+        if (r == null)
+            return;
+        System.out.print(r.val + "\t");
+        preTraverse(r.lc);
+        preTraverse(r.rc);
+    }
+    public void PreTraverseColour(RBnode r) {
+        if (r == null)
+            return;
+        if (r.colour)
+            System.out.print("Red\t");
+        else
+            System.out.print("Black\t");
+            preTraverseColour(r.lc);
+            preTraverseColour(r.rc);
+    }
+
 }
